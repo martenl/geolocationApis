@@ -1,0 +1,20 @@
+<h1>IPGeolocation.io</h1>
+{{ip}}
+<pre>
+<code class="language-java">
+    IPGeolocationAPI api = new IPGeolocationAPI("25a6c9417d584f838839e3c582567f64");
+
+    @GetMapping
+    ModelAndView ipgeoloactaion(HttpServletRequest request) {
+        Map<String, Object> model = Map.of("ip", request.getRemoteAddr());
+        final GeolocationParams geoParams = new GeolocationParams();
+        geoParams.setIPAddress(request.getRemoteAddr());
+        geoParams.setLang("DE");
+        geoParams.setFields("zipcode,longitude,latitude");
+        api.getGeolocation(geoParams);
+        return new ModelAndView("ipgeolocation", model);
+    }
+</code></pre>
+<h2>Result</h2>
+{{>includes/result}}
+<a href="https://ipgeolocation.io/">Website</a>
