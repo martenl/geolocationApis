@@ -1,0 +1,28 @@
+<h1>IPStack</h1>
+{{ip}}
+<p>Code example:</p>
+<pre>
+<code class="language-java">
+    final static String ip = "145.243.167.0";
+    final static String apiKey = "my-cool-api-key";
+    final String apiURL = "http://api.ipstack.com/{ip}?access_key={apiKey}";
+    final RestTemplate restTemplate = new RestTemplate();
+
+    private Optional&ltIPStackResult&gt getData() {
+        ResponseEntity&ltIPStackResult&gt result = restTemplate.getForEntity(apiURL, IPStackResult.class, Map.of("ip", ip, "apiKey", apiKey));
+        return Optional.ofNullable(result.getBody());
+    }
+
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    private class IPStackResult {
+        String city;
+        String zip;
+        String latitude;
+        String longitude;
+    }
+</code></pre>
+<h2>Result</h2>
+{{>includes/result}}
+<a href="https://ipstack.com/quickstart">Website</a>
