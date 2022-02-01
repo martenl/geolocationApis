@@ -24,7 +24,7 @@ public class IPGeolocationController {
 
     @GetMapping
     ModelAndView ipgeoloactaion(HttpServletRequest request) {
-        final String ip = "145.243.167.0";
+        final String ip = request.getRemoteAddr();//"145.243.167.0";
         final GeolocationParams geoParams = new GeolocationParams();
         geoParams.setIPAddress(ip);
         geoParams.setLang("de");
