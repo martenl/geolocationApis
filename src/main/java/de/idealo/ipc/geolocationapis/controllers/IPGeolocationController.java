@@ -29,16 +29,17 @@ public class IPGeolocationController {
         geoParams.setIPAddress(ip);
         geoParams.setLang("de");
         geoParams.setFields("zipcode,longitude,latitude");
+        long time = System.currentTimeMillis();
         Geolocation geolocation = api.getGeolocation(geoParams);
+        Long timeItTook = System.currentTimeMillis() - time;
         Map<String, String> result = geolocation.getMessage() == null ?
           Map.of("zipcode", geolocation.getZipCode(),"longitude", geolocation.getLongitude(),"latitude", geolocation.getLatitude()) :
           Map.of();
-        log.info("msg: {}", geolocation.getMessage());
-        log.info("zipcode: {}, longitude: {}, latitude: {}", geolocation.getZipCode(),geolocation.getLongitude(),geolocation.getLatitude());
         Map<String, Object> model = Map.of(
                 "ip", ip,
                 "result", result,
-                "error", geolocation.getMessage() == null ? "" : geolocation.getMessage()
+                "error", geolocation.getMessage() == null ? "" : geolocation.getMessage(),
+                "time", timeItTook
         );
         return new ModelAndView("ipgeolocation", model);
     }

@@ -28,11 +28,14 @@ public class AbstractAPIController {
     final RestTemplate restTemplate = new RestTemplate();
 
     private Map<String, Object> getData(String ip) {
+        long time = System.currentTimeMillis();
         ResponseEntity<AbstractAPIStackResult> result = restTemplate.getForEntity(apiURL, AbstractAPIStackResult.class, Map.of("api_key", apiKey, "ip_address", ip));
+        Long timeItTook = System.currentTimeMillis() - time;
         if(result.hasBody()) {
             AbstractAPIStackResult data = result.getBody();;
             return Map.of(
                     "ip", ip,
+                    "time", timeItTook,
                     "zipcode", data.postal_code,
                     "city", data.city,
                     "longitude", data.longitude,

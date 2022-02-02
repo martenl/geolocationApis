@@ -41,11 +41,13 @@ public class IPStackController {
 
     @GetMapping
     ModelAndView getIPStack() {
+        long time = System.currentTimeMillis();
         Optional<IPStackResult> result = getData();
+        Long timeItTook = System.currentTimeMillis() - time;
         Map<String, String> data = result.isPresent() ?
                 Map.of( "zipcode", result.get().zip, "city", result.get().city, "longitude", result.get().longitude, "latitude", result.get().latitude ) :
                 Map.of();
-        Map<String, Object> model = Map.of("ip", ip,"result", data);
+        Map<String, Object> model = Map.of("ip", ip,"result", data, "time", timeItTook);
         return new ModelAndView("ipstack", model);
     }
 }
