@@ -3,6 +3,8 @@ package de.idealo.ipc.geolocationapis.controllers;
 import java.util.Map;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -19,12 +21,11 @@ import lombok.NoArgsConstructor;
 @RequestMapping("/ipstack")
 public class IPStackController {
 
-    final static String ip = "145.243.167.0";
     final static String apiKey = "302237f69426cd8bd43813cfd601ddc9";
     final String apiURL = "http://api.ipstack.com/{ip}?access_key={apiKey}";
     final RestTemplate restTemplate = new RestTemplate();
 
-    private Optional<IPStackResult> getData() {
+    private Optional<IPStackResult> getData(String ip) {
         ResponseEntity<IPStackResult> result = restTemplate.getForEntity(apiURL, IPStackResult.class, Map.of("ip", ip, "apiKey", apiKey));
         return Optional.ofNullable(result.getBody());
     }
@@ -40,9 +41,10 @@ public class IPStackController {
     }
 
     @GetMapping
-    ModelAndView getIPStack() {
+    ModelAndView getIPStack(HttpServletRequest request) {
         long time = System.currentTimeMillis();
-        Optional<IPStackResult> result = getData();
+        String ip = request.getRemoteAddr();
+        Optional<IPStackResult> result = getData(ip);
         Long timeItTook = System.currentTimeMillis() - time;
         Map<String, String> data = result.isPresent() ?
                 Map.of( "zipcode", result.get().zip, "city", result.get().city, "longitude", result.get().longitude, "latitude", result.get().latitude ) :
