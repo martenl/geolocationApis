@@ -1,6 +1,9 @@
 package de.idealo.ipc.geolocationapis.controllers;
 
 import java.util.Map;
+import java.util.Optional;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -24,9 +27,18 @@ public class AbstractAPIController {
     final String apiURL = "https://ipgeolocation.abstractapi.com/v1/?api_key={api_key}&ip_address={ip_address}";
     final RestTemplate restTemplate = new RestTemplate();
 
-    private String getData() {
-        ResponseEntity<String> result = restTemplate.getForEntity(apiURL, String.class, Map.of("api_key", apiKey, "ip_address", ip));
-        return result.getBody();
+    private Map<String, Object> getData(String ip) {
+        ResponseEntity<AbstractAPIStackResult> result = restTemplate.getForEntity(apiURL, AbstractAPIStackResult.class, Map.of("api_key", apiKey, "ip_address", ip));
+        if(result.hasBody()) {
+            AbstractAPIStackResult data = result.getBody();;
+            return Map.of(
+                    "zip", data.postal_code,
+                    "city", data.city,
+                    "longitude", data.longitude,
+                    "latitude", data.latitude
+            );
+        }
+        return Map.of();
 
     }
 
@@ -41,10 +53,8 @@ public class AbstractAPIController {
     }
 
     @GetMapping
-    ModelAndView getGeoIPFromAbstract() {
-        log.info("hello");
-        Map<String, String> model = Map.of("json", getData());
-        log.info("world");
+    ModelAndView getGeoIPFromAbstract(HttpServletRequest request) {
+        Map<String, Object> model = Map.of("result", getData(request.getRemoteAddr()));
         return new ModelAndView("abstract", model);
     }
 }
