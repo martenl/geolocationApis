@@ -8,10 +8,15 @@
         mapboxgl.accessToken = 'pk.eyJ1IjoibWFydGVubCIsImEiOiJja3o1Y2dvZnowbm9qMnByeG1yZDNxcGwwIn0.LPLKaMMnFy8CMzEugaS8Hw';
         var map = new mapboxgl.Map({
             center: [{{longitude}},{{latitude}}],
-            zoom: 11,
+            zoom: 13,
             container: 'map',
             style: 'mapbox://styles/mapbox/streets-v11'
         });
+        const marker = new mapboxgl.Marker({
+            color: "#FFFFFF",
+            draggable: true
+        }).setLngLat({{longitude}},{{latitude}})
+                .addTo(map);
     </script>
 {{/result}}
 {{^result}}
