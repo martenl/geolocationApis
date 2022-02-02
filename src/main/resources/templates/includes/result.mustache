@@ -3,6 +3,15 @@
     Zip: {{zipcode}}
     Long: {{longitude}}
     Lat: {{latitude}}
+    <div id='map' style='width: 400px; height: 300px;'></div>
+    <script>
+        mapboxgl.accessToken = 'pk.eyJ1IjoibWFydGVubCIsImEiOiJja3o1Y2dvZnowbm9qMnByeG1yZDNxcGwwIn0.LPLKaMMnFy8CMzEugaS8Hw';
+        var map = new mapboxgl.Map({
+            center: [{{longitude}},{{latitude}}],
+            container: 'map',
+            style: 'mapbox://styles/mapbox/streets-v11'
+        });
+    </script>
 {{/result}}
 {{^result}}
     Error: {{error}}
