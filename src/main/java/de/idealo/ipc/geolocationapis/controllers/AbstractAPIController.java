@@ -32,6 +32,7 @@ public class AbstractAPIController {
         if(result.hasBody()) {
             AbstractAPIStackResult data = result.getBody();;
             return Map.of(
+                    "ip", ip,
                     "zip", data.postal_code,
                     "city", data.city,
                     "longitude", data.longitude,
