@@ -2,8 +2,48 @@
 <div>
     <h1>Abstract</h1>
     <a href="https://app.abstractapi.com/">Website</a>
+    <p>Price: 499$/month => 20 mio calls</p>
     <pre>
-        <code></code>
+        <code>
+            final String apiKey = "c1b4c101727c438b8387836d023543ff";
+            final String apiURL = "https://ipgeolocation.abstractapi.com/v1/?api_key={api_key}&ip_address={ip_address}";
+            final RestTemplate restTemplate = new RestTemplate();
+
+            private Map&ltString, Object&gt getData(String ip) {
+                long time = System.currentTimeMillis();
+                ResponseEntity&ltAbstractAPIStackResult&gt result = restTemplate.getForEntity(apiURL, AbstractAPIStackResult.class, Map.of("api_key", apiKey, "ip_address", ip));
+                Long timeItTook = System.currentTimeMillis() - time;
+                if(result.hasBody()) {
+                    AbstractAPIStackResult data = result.getBody();;
+                    return Map.of(
+                            "ip", ip,
+                            "time", timeItTook,
+                            "zipcode", data.postal_code,
+                            "city", data.city,
+                            "longitude", data.longitude,
+                            "latitude", data.latitude
+                    );
+                }
+                return Map.of();
+
+            }
+
+            @Data
+            @NoArgsConstructor
+            @AllArgsConstructor
+            static private class AbstractAPIStackResult {
+                String city;
+                String postal_code;
+                String latitude;
+                String longitude;
+            }
+
+            @GetMapping
+            ModelAndView getGeoIPFromAbstract(HttpServletRequest request) {
+                Map&ltString, Object&gt model = Map.of("result", getData(request.getRemoteAddr()));
+                return new ModelAndView("abstract", model);
+            }
+        </code>
     </pre>
 </div>
 <h2>Result</h2>
