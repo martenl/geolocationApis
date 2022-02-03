@@ -8,7 +8,7 @@
 
     @GetMapping
     ModelAndView ipgeoloactaion(HttpServletRequest request) {
-        Map<String, Object> model = Map.of("ip", request.getRemoteAddr());
+        Map&ltString, Object&gt model = Map.of("ip", request.getRemoteAddr());
         final GeolocationParams geoParams = new GeolocationParams();
         geoParams.setIPAddress(request.getRemoteAddr());
         geoParams.setLang("DE");
