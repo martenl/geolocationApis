@@ -25,7 +25,7 @@ public class IP2LocationController {
     final RestTemplate restTemplate = new RestTemplate();
 
     private Optional<IP2LocationController.IP2LocationResult> getData(String ip) {
-        ResponseEntity<IP2LocationController.IP2LocationResult> result = restTemplate.getForEntity(apiURL, IP2LocationController.IP2LocationResult.class, Map.of("ip", ip, "apiKey", apiKey));
+        ResponseEntity<IP2LocationController.IP2LocationResult> result = restTemplate.getForEntity(apiURL, IP2LocationController.IP2LocationResult.class, Map.of("ip", ip, "api_Key", apiKey));
         return Optional.ofNullable(result.getBody());
     }
 
