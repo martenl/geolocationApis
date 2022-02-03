@@ -1,0 +1,42 @@
+{{>includes/header}}
+<h1>IP2Location</h1>
+{{ip}}
+<p>Code example:</p>
+<pre>
+<code class="language-java">
+    final static String apiKey = "my-cool-api-key";
+    final String apiURL = "https://api.ip2location.com/v2/?ip={ip}&lang=de-de&key={api_key}&format=json&package=WS9&&addon=country,region,city,zip_code";
+    final RestTemplate restTemplate = new RestTemplate();
+
+    private Optional&ltIP2LocationController.IP2LocationResult&gt getData(String ip) {
+        ResponseEntity&ltIP2LocationController.IP2LocationResult&gt result = restTemplate.getForEntity(apiURL, IP2LocationController.IP2LocationResult.class, Map.of("ip", ip, "apiKey", apiKey));
+        return Optional.ofNullable(result.getBody());
+    }
+
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    static private class IP2LocationResult {
+        String city_name;
+        String zip_code;
+        String latitude;
+        String longitude;
+    }
+
+    @GetMapping
+    ModelAndView getIP2LocationData(HttpServletRequest request) {
+        long time = System.currentTimeMillis();
+        String ip = request.getRemoteAddr();
+        Optional&ltIP2LocationResult> data = getData(ip);
+        Long timeItTook = System.currentTimeMillis() - time;
+        Map&ltString, Object> result = data.isPresent() ?
+                Map.of( "zipcode", data.get().zip_code, "city", data.get().city_name, "longitude", data.get().longitude, "latitude", data.get().latitude )
+                : Map.of();
+        Map&ltString, Object&gt model = Map.of("ip", ip, "result", result, "time", timeItTook);
+        return new ModelAndView("ip2location", model);
+    }
+</code></pre>
+<h2>Result</h2>
+{{>includes/result}}
+<a href="https://www.ip2location.com/">Website</a>
+{{>includes/footer}}
