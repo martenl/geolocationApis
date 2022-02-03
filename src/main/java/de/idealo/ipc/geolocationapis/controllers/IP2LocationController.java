@@ -20,8 +20,8 @@ import lombok.NoArgsConstructor;
 @RequestMapping("/ip2location")
 public class IP2LocationController {
 
-    final static String apiKey = "z5DOlwKq8T4b5fSf4hFunnzgChLOkbLyrMLlSr4QXu6vthNdRGiaV7YBU38o0UOj";
-    final String apiURL = "https://api.ip2location.com/v2/?ip={ip}&lang=de&key={api_key}&format=json&package=WS9&&addon=country,region,city,zip_code";
+    final static String apiKey = "FTECCU0ZQW";
+    final String apiURL = "https://api.ip2location.com/v2/?ip={ip}&lang=de&key={api_key}&format=json&package=WS9&&addon=country,region,city";
     final RestTemplate restTemplate = new RestTemplate();
 
     private Optional<IP2LocationController.IP2LocationResult> getData(String ip) {
