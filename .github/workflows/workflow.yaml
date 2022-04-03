@@ -13,3 +13,8 @@ jobs:
           node -v
           npm -v
           cat myfile.txt
+      - name: Run python script
+        run: |
+          import platform
+          print(platform.processor())
+        shell: python
