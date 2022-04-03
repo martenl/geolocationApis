@@ -7,15 +7,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Echo a message
-        run: echo "Hello github actions"
+        run: echo "Hello github actions" > myfile.txt
       - name: Multiline script
         run: |
           node -v
           npm -v
-      - name: Get flutter sdk
-        uses: subosito/flutter-action@v2
-        with:
-          flutter-version: '2.8.0'
-          channel: 'stable'
-      - name: Get Flutter version
-        run: flutter --version
+          cat myfile.txt
