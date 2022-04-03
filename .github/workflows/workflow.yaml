@@ -18,3 +18,12 @@ jobs:
           import platform
           print(platform.processor())
         shell: python
+
+  run-another-shell-command:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Multiline script
+        run: |
+          node -v
+          npm -v
+          cat myfile.txt
