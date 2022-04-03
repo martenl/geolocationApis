@@ -44,4 +44,8 @@ jobs:
         with:
           name: jar-file
       - name: check content
-        run: ls
+        run: |
+          ls
+          echo $GITHUB_SHA
+          echo $GITHUB_REPOSITORY
+          echo $GITHUB_WORKSPACE
