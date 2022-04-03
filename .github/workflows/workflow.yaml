@@ -31,10 +31,10 @@ jobs:
       - name: Built with maven
         run: mvn clean package
       - name: Store artifact
-          uses: actions/upload-artifact@v2
-          with:
-            name: jar-file
-            path: target/*.jar
+        uses: actions/upload-artifact@v2
+        with:
+          name: jar-file
+          path: target/*.jar
 
   build-docker-image:
     runs-on: ubuntu-latest
