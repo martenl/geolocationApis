@@ -1,6 +1,9 @@
 name: Shell commands
 
-on: [push]
+on:
+  push:
+    branches:
+      - master
 
 jobs:
   run-shell-command:
@@ -26,6 +29,8 @@ jobs:
       - uses: actions/download-artifact@v2
         with:
           name: my-artifact
+      - name: checkout repository
+        uses: actions/checkout@v2
       - name: Multiline script
         run: |
           ls
